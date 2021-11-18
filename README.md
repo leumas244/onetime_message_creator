@@ -18,7 +18,9 @@ Ab hier gibt es ein kleines HandsOn wie das Projekt lokal initialisiert wird.
 
 Das Projekt sollte nach dem Klonen direkt umbenannt werden. Dafür wird der Root-Ordner
 (der Ordner, der durch das Klonen erzeugt wurde) im Dateiexplorer umbenannt. Dann muss im Root-Ordner der Ordner
-"dashboard_template" über Refactor->Rename umbenannt werden. Am besten man nennt das Projekt so wie das Git-Repo
+"dashboard_template" über Refactor->Rename umbenannt werden. Am besten man nennt das Projekt so wie das Git-Repo.
+
+(Fals in settings.py Zeile 54 nicht geändert wird muss diese geändert werden.)
 
 ### 2. Git remote Host ändern
 

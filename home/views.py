@@ -1,4 +1,7 @@
 import re
+import string
+import datetime
+import random
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
@@ -83,3 +86,15 @@ def settings(request):
 
     else:
         return redirect('login')
+
+def get_expire_date(hours=24*7):
+    now = datetime.datetime.now()
+    return now + datetime.timedelta(hours=hours)
+
+
+def get_random_size():
+    return random.randint(35, 40)
+
+
+def token_generator(size=40, chars=string.ascii_letters + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))

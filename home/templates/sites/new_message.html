@@ -1,1 +1,79 @@
 {% extends 'base.html' %}
+
+{% block head %}
+<title>Neuer Nachrichten-Link</title>
+{% endblock %} 
+
+{% block main %}
+<article class="white-block">
+  <div class="top-cat-title">
+    <h2>Neuen Nachrichten Link erstellen</h2>
+  </div>
+  <br />
+  <form method="POST">
+    {% csrf_token %}
+    <ul class="top-cat-list">
+      <li>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="form-label-wrapper">
+              <p class="form-label">Name</p>
+              <input
+                id="name"
+                name="name"
+                class="form-input"
+                type="text"
+                required
+              />
+            </label>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label-wrapper">
+              <p class="form-label">Ablaufdatum</p>
+              <input
+                id="token_expiry_date"
+                name="token_expiry_date"
+                class="form-input"
+                type="date"
+                required
+              />
+            </label>
+          </div>
+        </div>
+      </li>
+      <br />
+      <li>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="form-label-wrapper">
+              <p class="form-label">Nachricht</p>
+              <textarea
+                id="message"
+                name="message"
+                class="form-input"
+                style="height:250px;"
+                required
+              /></textarea>
+            </label>
+          </div>
+
+        </div>
+      </li>
+    </ul>
+    <br />
+    <br />
+    <div class="row">
+      <div class="col-md-1">
+        <form>
+          <button
+            class="form-btn primary-default-btn transparent-btn"
+            type="submit"
+          >
+            Speichern
+          </button>
+        </form>
+      </div>
+    </div>
+  </form>
+</article>
+{% endblock %}

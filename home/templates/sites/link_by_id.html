@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% block head %}
+<title>Link für {{ name }}</title>
+{% endblock %} {% block main %}
+<article class="white-block">
+  <div class="top-cat-title">
+    <h2 style="text-align: center">Link für "{{ name }}"</h2>
+  </div>
+  <br />
+  <ul class="top-cat-list">
+    <li>
+      <div class="row">
+        <div class="col-md-12">
+          <label class="form-label-wrapper">
+            <p class="form-label">Link</p>
+            <div class="copy-link">
+              <input
+                id="name"
+                name="name"
+                class="form-input password-share copy-link-input"
+                value="{{ token_link }}"
+                type="text"
+                readonly
+              />
+              <button type="button" class="copy-link-button">
+                <span class="icon paper-download"></span>
+              </button>
+            </div>
+          </label>
+        </div>
+      </div>
+    </li>
+  </ul>
+</article>
+{% load static %}
+<!-- clipboard script -->
+<script src="{% static 'base/js/clipboard-script.js' %}"></script>
+{% endblock %}

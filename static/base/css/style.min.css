@@ -2879,6 +2879,14 @@ label {
     font-family: "Consolas";
 }
 
+.status-title {
+    text-align: center;
+}
+
+.darkmode .status-title {
+    color: #b9b9b9;
+}
+
 .copy-link {
     --height: 44px;
     display: flex;

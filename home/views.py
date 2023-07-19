@@ -9,7 +9,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.signals import user_logged_out, user_logged_in
 from django.contrib.auth import update_session_auth_hash
-from .models import OnetimePassword
+from django.urls import reverse
+from .models import OnetimePassword, OnetimeMessage
 
 
 def logout(sender, user, request, **kwargs):
@@ -59,14 +60,14 @@ def new_password(request):
             one_time_token = token_generator(size=get_random_size())
             token_expiry_date = datetime.datetime.strptime(request.POST.get('token_expiry_date'), "%Y-%m-%d").date()
 
-            new_password_obj = OnetimePassword(
+            new_onetime_password = OnetimePassword(
                 name=name, username=share_username, password=password,
                 creator=creator, one_time_token=one_time_token,
                 token_expiry_date=token_expiry_date
             )
-            new_password_obj.save()
+            new_onetime_password.save()
 
-            return redirect('home')
+            return redirect('show_link_by_id', link_type='password', identifier=new_onetime_password.id)
 
         return render(request, 'sites/new_password.html', dates)
 
@@ -76,6 +77,24 @@ def new_password(request):
 
 def new_message(request):
     if request.user.is_authenticated:
+        if request.method == 'POST':
+            user = User.objects.get(username=request.user.username)
+
+            name = request.POST.get('name')
+            message = request.POST.get('message')
+            creator = user
+            one_time_token = token_generator(size=get_random_size())
+            token_expiry_date = datetime.datetime.strptime(request.POST.get('token_expiry_date'), "%Y-%m-%d").date()
+
+            new_onetime_message = OnetimeMessage(
+                name=name, message=message,
+                creator=creator, one_time_token=one_time_token,
+                token_expiry_date=token_expiry_date
+            )
+            new_onetime_message.save()
+
+            return redirect('show_link_by_id', link_type='message', identifier=new_onetime_message.id)
+        
         dates = {}
         return render(request, 'sites/new_message.html', dates)
 
@@ -83,44 +102,96 @@ def new_message(request):
         return redirect('login')
     
 
-def share_password_by_token(request, token):
-    status = 'link_not_aviable'
+def share_by_token(request, token):
     try:
-        onetime_password = OnetimePassword.objects.get(one_time_token=token)
+        onetime_link = OnetimePassword.objects.get(one_time_token=token)
+        status = 'password_link_aviable'
     except:
-        dates = {'status': status}
-        return render(request, 'sites/share_password_by_token.html', dates)
+        status = 'link_not_aviable'
     
-    token_expiry_date = onetime_password.token_expiry_date
-    open_status = onetime_password.opend
+    if status == 'link_not_aviable':
+        try:
+            onetime_link = OnetimeMessage.objects.get(one_time_token=token)
+            status = 'message_link_aviable'
+        except:
+            dates = {'status': status}
+            return render(request, 'sites/share_by_token.html', dates)
+    
+    token_expiry_date = onetime_link.token_expiry_date
+    open_status = onetime_link.opend
     now = datetime.date.today()
 
     if now <= token_expiry_date and open_status == False:
-        status = 'link_aviable'
-        if request.method == 'POST':
-            opener = request.POST.get('name')
-            status = 'link_aviable_and_open'
+        if status == 'password_link_aviable':
+            if request.method == 'POST':
+                opener = request.POST.get('name')
+                status = 'password_link_aviable_and_open'
 
-            onetime_password.opend = True
-            onetime_password.name_of_opener = opener
-            onetime_password.save()
+                onetime_link.opend = True
+                onetime_link.name_of_opener = opener
+                onetime_link.save()
 
 
-            dates = {'status': status,
-                     'name': onetime_password.name,
-                     'share_username': onetime_password.username,
-                     'password': onetime_password.password
-                     }
-            return render(request, 'sites/share_password_by_token.html', dates)
-        else:
-            dates = {'status': status,
-                     'name': onetime_password.name,
-                     }
-            return render(request, 'sites/share_password_by_token.html', dates)
+                dates = {'status': status,
+                        'name': onetime_link.name,
+                        'share_username': onetime_link.username,
+                        'password': onetime_link.password
+                        }
+                return render(request, 'sites/share_by_token.html', dates)
+            else:
+                dates = {'status': status,
+                        'name': onetime_link.name,
+                        }
+                return render(request, 'sites/share_by_token.html', dates)
+        
+        elif status == 'message_link_aviable':
+            if request.method == 'POST':
+                opener = request.POST.get('name')
+                status = 'message_link_aviable_and_open'
+
+                onetime_link.opend = True
+                onetime_link.name_of_opener = opener
+                onetime_link.save()
+
+                dates = {'status': status,
+                        'name': onetime_link.name,
+                        'message': onetime_link.message
+                        }
+                return render(request, 'sites/share_by_token.html', dates)
+            else:
+                dates = {'status': status,
+                        'name': onetime_link.name,
+                        }
+                return render(request, 'sites/share_by_token.html', dates)
     else:
         status = 'link_not_aviable_anymore'
         dates = {'status': status}
-        return render(request, 'sites/share_password_by_token.html', dates)
+        return render(request, 'sites/share_by_token.html', dates)
+    
+
+def show_link_by_id(request, link_type, identifier):
+    if request.user.is_authenticated:
+        user = User.objects.get(username=request.user.username)
+        if link_type == 'password':
+            onetime_link = OnetimePassword.objects.get(id=identifier)
+        elif link_type == 'message':
+            onetime_link = OnetimeMessage.objects.get(id=identifier)
+        else:
+            redirect('home')
+        
+        if onetime_link.creator == user:
+            token_link = request.build_absolute_uri(reverse('share_by_token', args=[onetime_link.one_time_token]))
+            dates = {
+                'name': onetime_link.name,
+                'token_link': token_link,
+            }
+            return render(request, 'sites/link_by_id.html', dates)
+        else:
+            redirect('home')
+
+
+    else:
+        return redirect('login')
 
 
 def password_change(request):

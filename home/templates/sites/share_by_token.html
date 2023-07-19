@@ -17,7 +17,15 @@
       type="text/css"
       href="{% static 'base/css/style.min.css' %}"
     />
+    {% if status == 'password_link_aviable' or status == 'password_link_aviable_and_open' %}
     <title>Geteiltes Passwort</title>
+    {% elif status == 'message_link_aviable' or status == 'message_link_aviable_and_open' %}
+    <title>Geteilte Nachricht</title>
+    {% elif status == 'link_not_aviable_anymore' %}
+    <title>Link abgelaufen</title>
+    {% else %}
+    <title>Link nicht gefunden</title>
+    {% endif %}
   </head>
 
   <body>
@@ -59,16 +67,57 @@
         <main class="main users chart-page" id="skip-target">
           <div class="container">
             {% if status == 'link_not_aviable' %}
-            <h1>Kein solcher Link vorhanden</h1>
-            {% elif status == 'link_aviable' %}
+            <h1 class="status-title">Kein solcher Link vorhanden</h1>
+            {% elif status == 'password_link_aviable' %}
             <article class="white-block">
               <div class="top-cat-title">
                 <h2>Hier kannst du das Passwort für "{{ name }}" öffnen</h2>
+                <h2>Bitte trage deinen Namen ein</h2>
               </div>
               <br />
               <form method="POST">
                 {% csrf_token %}
+                <ul class="top-cat-list">
+                  <li>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label class="form-label-wrapper">
+                          <p class="form-label">Name</p>
+                          <input
+                            id="name"
+                            name="name"
+                            class="form-input"
+                            type="text"
+                            required
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <br />
+                <br />
+                <div class="row">
+                  <div class="col-md-2">
+                    <form>
+                      <button
+                        class="form-btn primary-default-btn transparent-btn"
+                        type="submit"
+                      >Passwort öffnen</button>
+                    </form>
+                  </div>
+                </div>
+              </form>
+            </article>
+            {% elif status == 'message_link_aviable' %}
+            <article class="white-block">
+              <div class="top-cat-title">
+                <h2>Hier kannst du die Nachricht für "{{ name }}" öffnen</h2>
                 <h2>Bitte trage deinen Namen ein</h2>
+              </div>
+              <br />
+              <form method="POST">
+                {% csrf_token %}
                 <ul class="top-cat-list">
                   <li>
                     <div class="row">
@@ -96,14 +145,14 @@
                         class="form-btn primary-default-btn transparent-btn"
                         type="submit"
                       >
-                        Passwort öffnen
+                        Nachricht öffnen
                       </button>
                     </form>
                   </div>
                 </div>
               </form>
             </article>
-            {% elif status == 'link_aviable_and_open' %} 
+            {% elif status == 'password_link_aviable_and_open' %} 
             {% if share_username == '' or share_username == null %}
             <article class="white-block">
               <div class="top-cat-title">
@@ -120,7 +169,7 @@
                           <input
                             id="name"
                             name="name"
-                            class="form-input password-share  copy-link-input"
+                            class="form-input password-share copy-link-input"
                             value="{{ password }}"
                             type="password"
                             readonly
@@ -169,7 +218,7 @@
                           <input
                             id="name"
                             name="name"
-                            class="form-input password-share  copy-link-input"
+                            class="form-input password-share copy-link-input"
                             value="{{ password }}"
                             type="password"
                             readonly
@@ -184,9 +233,34 @@
                 </li>
               </ul>
             </article>
-            {% endif %} 
+            {% endif %}
+            {% elif status == 'message_link_aviable_and_open' %}
+            <article class="white-block">
+              <div class="top-cat-title">
+                <h2 style="text-align: center">Nachricht für "{{ name }}"</h2>
+              </div>
+              <br />
+              <ul class="top-cat-list">
+                <li>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label class="form-label-wrapper">
+                        <p class="form-label">Nachricht</p>
+                        <textarea
+                          id="message"
+                          name="message"
+                          class="form-input"
+                          style="height: 250px"
+                          readonly
+                        />{{ message }}</textarea>
+                      </label>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </article>
             {% elif status == 'link_not_aviable_anymore' %}
-            <h1>Dieser Link ist abgelaufen oder schon geöffnet worden</h1>
+            <h1 class="status-title">Dieser Link ist abgelaufen oder schon geöffnet worden</h1>
             {% endif %}
           </div>
         </main>

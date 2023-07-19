@@ -5,8 +5,7 @@
                 <span class="sr-only">Home</span>
                 <span class="icon logo" aria-hidden="true"></span>
                 <div class="logo-text">
-                    <span class="logo-title">Name</span>
-                    <span class="logo-subtitle">Untername</span>
+                    <span class="logo-title">Einmal-URL</span>
                 </div>
 
             </a>
@@ -26,50 +25,41 @@
                     {% endif %}
                 </li>
                 <li>
+                    {% url 'history' as the_url %}
+                    {% if request.path == the_url %}
+                    <a class="active" href="{% url 'history' %}"><span class="icon document" aria-hidden="true"></span>Verlauf</a>
+                    {% else %}
+                    <a href="{% url 'history' %}"><span class="icon document" aria-hidden="true"></span>Verlauf</a>
+                    {% endif %}
+                </li>
+                <li>
                     <a class="show-cat-btn" href="#">
-                        <span class="icon document" aria-hidden="true"></span>Unterseiten
+                        <span class="icon plus" aria-hidden="true"></span>Neuer Link
                         <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
+                            <span class="sr-only">Liste öffnen</span>
                                 <span class="icon arrow-down" aria-hidden="true"></span>
                                 </span>
                     </a>
-                    <ul class="cat-sub-menu">
+                    {% url 'new_password' as the_url %}
+                    {% url 'new_message' as the_url_two %}
+                    <ul {% if request.path == the_url or request.path == the_url_two %} class="cat-sub-menu visible" {% else %} class="cat-sub-menu" {% endif %}>
                         <li>
-                            <a href="#">Unterseite 1</a>
+                            {% url 'new_password' as the_url %}
+                            {% if request.path == the_url %}
+                            <a class="active" href="{% url 'new_password' %}"><span class="icon lock" aria-hidden="true"></span>Passwort</a>
+                            {% else %}
+                            <a href="{% url 'new_password' %}"><span class="icon lock" aria-hidden="true"></span>Passwort</a>
+                            {% endif %}
                         </li>
                         <li>
-                            <a href="#">Unterseite 2</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon message" aria-hidden="true"></span>Anzeige
-                    </a>
-                    <span class="msg-counter">6</span>
-                </li>
-            </ul>
-            <span class="system-menu__title">Menütitel</span>
-            <ul class="sidebar-body-menu">
-                <li>
-                    <a class="show-cat-btn" href="##">
-                        <span class="icon user-3" aria-hidden="true"></span>Users
-                        <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                                </span>
-                    </a>
-                    <ul class="cat-sub-menu">
-                        <li>
-                            <a href="users-01.html">Users-01</a>
-                        </li>
-                        <li>
-                            <a href="users-02.html">Users-02</a>
+                            {% url 'new_message' as the_url %}
+                            {% if request.path == the_url %}
+                            <a class="active" href="{% url 'new_message' %}"><span class="icon message" aria-hidden="true"></span>Nachricht</a>
+                            {% else %}
+                            <a href="{% url 'new_message' %}"><span class="icon message" aria-hidden="true"></span>Nachricht</a>
+                            {% endif %}
                         </li>
                     </ul>
-                </li>
-                <li>
-                    <a href="##"><span class="icon setting" aria-hidden="true"></span>Einstellungen</a>
                 </li>
             </ul>
             {% if user.username == 'admin' %}

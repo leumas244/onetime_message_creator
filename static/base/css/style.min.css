@@ -99,7 +99,8 @@ select {
 [type=reset],
 [type=submit],
 button {
-    -webkit-appearance: button
+    -webkit-appearance: button;
+    appearance: button
 }
 
 [type=button]::-moz-focus-inner,
@@ -151,6 +152,7 @@ legend {
 
 [type=search] {
     -webkit-appearance: textfield;
+    appearance: textfield;
     outline-offset: -2px
 }
 
@@ -813,8 +815,8 @@ body {
 
 .logo {
     background-image: url(../img/svg/Logo.svg);
-    width: 49px;
-    height: 49px
+    width: 30px;
+    height: 30px
 }
 
 .menu-toggle {
@@ -832,6 +834,42 @@ body {
 
 .home {
     background-image: url(../img/svg/Bulk/Home-white.svg)
+}
+
+.lock {
+    background-image: url(../img/svg/Bulk/Lock.svg);
+    width: 24px;
+    height: 24px
+}
+
+.plus {
+    background-image: url(../img/svg/Bulk/Plus.svg);
+    width: 24px;
+    height: 24px
+}
+
+.paper-download {
+    background-image: url(../img/svg/Bulk/Paper\ Download-black.svg);
+    width: 24px;
+    height: 24px
+}
+
+.darkmode .paper-download {
+    background-image: url(../img/svg/Bulk/Paper\ Download.svg);
+    width: 24px;
+    height: 24px
+}
+
+.hide {
+    background-image: url(../img/svg/Bulk/Hide.svg);
+    width: 24px;
+    height: 24px
+}
+
+.show {
+    background-image: url(../img/svg/Bulk/Show.svg);
+    width: 24px;
+    height: 24px
 }
 
 .arrow-down,
@@ -1522,7 +1560,7 @@ input::-webkit-input-placeholder {
     font-weight: 500;
     font-size: 14px;
     line-height: 2.43;
-    color: #d6d7e3
+    color: #4b4a4a
 }
 
 .form-input::-moz-placeholder,
@@ -1530,7 +1568,7 @@ input::-moz-placeholder {
     font-weight: 500;
     font-size: 14px;
     line-height: 2.43;
-    color: #d6d7e3
+    color: #4b4a4a
 }
 
 input:-ms-input-placeholder,
@@ -1575,7 +1613,6 @@ label {
     width: -webkit-max-content;
     width: -moz-max-content;
     width: max-content;
-    cursor: pointer
 }
 
 .new-page-content input {
@@ -2797,14 +2834,14 @@ label {
     font-weight: 500;
     font-size: 14px;
     line-height: 2.43;
-    color: #d6d7e3
+    color: #4b4a4a
 }
 
 .form-input::placeholder {
     font-weight: 500;
     font-size: 14px;
     line-height: 2.43;
-    color: #d6d7e3
+    color: #4b4a4a
 }
 
 .form-checkbox {
@@ -2836,6 +2873,51 @@ label {
 
 .form-btn {
     width: 100%
+}
+
+.password-share {
+    font-family: "Consolas";
+}
+
+.copy-link {
+    --height: 44px;
+    display: flex;
+}
+  
+.copy-link-input {
+    flex-grow: 1;
+    padding: 0 8px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    outline: none;
+}
+
+.copy-link-button {
+    flex-shrink: 0;
+    width: var(--height);
+    height: var(--height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #dddddd;
+    color: #333333;
+    outline: none;
+    cursor: pointer;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.darkmode .copy-link-button {
+    background-color: #1b1b2c;
+    color: #d6d7e3
+}
+  
+.copy-link-button:hover {
+    background: #cccccc;
+}
+
+.darkmode .copy-link-button:hover {
+    background: #24243a;
 }
 
 .forget-link {

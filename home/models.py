@@ -35,7 +35,7 @@ class OnetimeMessage(models.Model):
     class Meta:
         verbose_name_plural = "OnetimeMessages"
 
-    def __str__(self):
+    def __int__(self):
         return self.id
 
 
@@ -49,9 +49,9 @@ class OnetimePassword(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     one_time_token = models.CharField('Einmal-Token', blank=False, null=False, max_length=256)
-    token_expiry_date = models.DateTimeField('Token Ablauf Datum', blank=False, null=False)
+    token_expiry_date = models.DateField('Token Ablauf Datum', blank=False, null=False)
 
-    opend = models.BooleanField('Geöffnet?', blank=False, null=False)
+    opend = models.BooleanField('Geöffnet?', blank=False, null=False, default=False)
     
     update_date = models.DateTimeField('Geändert', auto_now=True)
     creation_date = models.DateTimeField('Erstellt', auto_now_add=True)
@@ -59,5 +59,5 @@ class OnetimePassword(models.Model):
     class Meta:
         verbose_name_plural = "OnetimePasswords"
 
-    def __str__(self):
+    def __int__(self):
         return self.id

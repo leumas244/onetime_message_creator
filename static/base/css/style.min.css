@@ -1805,6 +1805,7 @@ label {
 }
 
 .cat-sub-menu.visible a:hover,
+.cat-sub-menu.visible a.active,
 .sidebar-body-menu a.active,
 .sidebar-body-menu a.active::after,
 .sidebar-body-menu a:hover,

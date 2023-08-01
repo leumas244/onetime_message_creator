@@ -30,7 +30,29 @@ user_logged_in.connect(loginsuccessful)
 # Create your views here.
 def home(request):
     if request.user.is_authenticated:
-        dates = {}
+        user = User.objects.get(username=request.user.username)
+        messages = OnetimeMessage.objects.filter(creator=user)[:5]
+        passwords = OnetimePassword.objects.filter(creator=user)[:5]
+        all_models = []
+        for message in messages:
+            dic = {
+                'name': message.name,
+                'name_of_opener': message.name_of_opener,
+                'url': request.build_absolute_uri(reverse('share_by_token', args=[message.one_time_token])),
+                'status': message.opend,
+                'token_expiry_date': message.token_expiry_date,
+            }
+            all_models.append(dic)
+        for password in passwords:
+            dic = {
+                'name': password.name,
+                'name_of_opener': password.name_of_opener,
+                'url': request.build_absolute_uri(reverse('share_by_token', args=[password.one_time_token])),
+                'status': password.opend,
+                'token_expiry_date': password.token_expiry_date,
+            }
+            all_models.append(dic)
+        dates = {'all_models': all_models}
         return render(request, 'sites/home.html', dates)
 
     else:
@@ -44,7 +66,16 @@ def history(request):
 
     else:
         return redirect('login')
-        
+    
+
+def base(request):
+    if request.user.is_authenticated:
+        dates = {}
+        return render(request, 'base.html', dates)
+
+    else:
+        return redirect('login')
+    
 
 def new_password(request):
     if request.user.is_authenticated:

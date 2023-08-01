@@ -9,7 +9,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name="logout"),
     path('Passwort-aendern/', views.password_change, name="change_password"),
     path('Einstellungen/', views.settings, name='settings'),
-    path('Verlauf/', views.history, name="history"),
     path('neuer_Passwort-Link/', views.new_password, name="new_password"),
     path('neuer_Nachrichten-Link/', views.new_message, name="new_message"),
     path('teilen/<str:token>/', views.share_by_token, name='share_by_token'),

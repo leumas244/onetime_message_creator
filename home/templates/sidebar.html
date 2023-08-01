@@ -25,14 +25,6 @@
                     {% endif %}
                 </li>
                 <li>
-                    {% url 'history' as the_url %}
-                    {% if request.path == the_url %}
-                    <a class="active" href="{% url 'history' %}"><span class="icon document" aria-hidden="true"></span>Verlauf</a>
-                    {% else %}
-                    <a href="{% url 'history' %}"><span class="icon document" aria-hidden="true"></span>Verlauf</a>
-                    {% endif %}
-                </li>
-                <li>
                     <a class="show-cat-btn" href="#">
                         <span class="icon plus" aria-hidden="true"></span>Neuer Link
                         <span class="category__btn transparent-btn" title="Open list">

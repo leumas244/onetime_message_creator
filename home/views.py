@@ -48,6 +48,7 @@ def home(request):
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[message.one_time_token])),
                 'status': status,
                 'token_expiry_date': message.token_expiry_date,
+                'date': message.update_date
             }
             all_models.append(dic)
             
@@ -64,23 +65,17 @@ def home(request):
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[password.one_time_token])),
                 'status': status,
                 'token_expiry_date': password.token_expiry_date,
+                'date': password.update_date
             }
             all_models.append(dic)
+
+        all_models.sort(key=lambda x: x.get('date'), reverse=True)
         dates = {'all_models': all_models}
         return render(request, 'sites/home.html', dates)
 
     else:
         return redirect('login')
-    
-
-def history(request):
-    if request.user.is_authenticated:
-        dates = {}
-        return render(request, 'sites/home.html', dates)
-
-    else:
-        return redirect('login')
-    
+      
 
 def base(request):
     if request.user.is_authenticated:

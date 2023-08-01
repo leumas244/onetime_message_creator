@@ -56,7 +56,6 @@
         <tr class="users-table-info">
           <th>Name</th>
           <th>Öffner</th>
-          <th>Link</th>
           <th>Status</th>
           <th>Ablauf Datum</th>
           <th>Aktion</th>
@@ -65,32 +64,35 @@
       <tbody>
         {% for model in all_models %}
         <tr>
-          <td>{{ model.name }}</td>
-          <td>{{ model.name_of_opener }}</td>
-          <td><a href='{{ model.url }}'>öffnen</a></td>
-          {% if model.status == 'opend' %}
-          <td><span class="badge-pending">geöffnet</span></td>
-          {% elif model.status == 'expired' %}
-          <td><span class="badge-trashed">abgelaufen</span></td>
+          <td><a href='{{ model.url }}' target="_blank">{{ model.name }}</a></td>
+          {% if model.name_of_opener != None %}
+            <td>{{ model.name_of_opener }}</td>
           {% else %}
-          <td><span class="badge-success">nicht geöffnet</span></td>
+            <td></td>
+          {% endif %}
+          {% if model.status == 'opend' %}
+            <td><span class="badge-pending">geöffnet</span></td>
+          {% elif model.status == 'expired' %}
+            <td><span class="badge-trashed">abgelaufen</span></td>
+          {% else %}
+            <td><span class="badge-success">nicht geöffnet</span></td>
           {% endif %}
           <td>{{ model.token_expiry_date }}</td>
           <td>
             <span class="p-relative">
-              <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                <div class="sr-only">More info</div>
+              <button class="dropdown-btn transparent-btn" type="button" title="Mehr Infos">
+                <div class="sr-only">Mehr Infos</div>
                 <i data-feather="more-horizontal" aria-hidden="true"></i>
               </button>
               <ul class="users-item-dropdown dropdown">
                 <li>
-                  <a href="##">Edit</a>
+                  <a href="##">Bearbeiten</a>
                 </li>
                 <li>
-                  <a href="##">Quick edit</a>
+                  <a href="##">Duplizieren</a>
                 </li>
                 <li>
-                  <a href="##">Trash</a>
+                  <a href="##">Löschen</a>
                 </li>
               </ul>
             </span>

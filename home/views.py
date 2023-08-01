@@ -34,21 +34,35 @@ def home(request):
         messages = OnetimeMessage.objects.filter(creator=user)[:5]
         passwords = OnetimePassword.objects.filter(creator=user)[:5]
         all_models = []
+        today = datetime.date.today()
         for message in messages:
+            if message.opend:
+                status = 'opend'
+            elif today > message.token_expiry_date:
+                status = 'expired'
+            else:
+                status = 'unopend'
             dic = {
                 'name': message.name,
                 'name_of_opener': message.name_of_opener,
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[message.one_time_token])),
-                'status': message.opend,
+                'status': status,
                 'token_expiry_date': message.token_expiry_date,
             }
             all_models.append(dic)
+            
         for password in passwords:
+            if password.opend:
+                status = 'opend'
+            elif today > password.token_expiry_date:
+                status = 'expired'
+            else:
+                status = 'unopend'
             dic = {
                 'name': password.name,
                 'name_of_opener': password.name_of_opener,
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[password.one_time_token])),
-                'status': password.opend,
+                'status': status,
                 'token_expiry_date': password.token_expiry_date,
             }
             all_models.append(dic)

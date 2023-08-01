@@ -68,7 +68,13 @@
           <td>{{ model.name }}</td>
           <td>{{ model.name_of_opener }}</td>
           <td><a href='{{ model.url }}'>öffnen</a></td>
-          <td>{{ model.status }}</td>
+          {% if model.status == 'opend' %}
+          <td><span class="badge-pending">geöffnet</span></td>
+          {% elif model.status == 'expired' %}
+          <td><span class="badge-trashed">abgelaufen</span></td>
+          {% else %}
+          <td><span class="badge-success">nicht geöffnet</span></td>
+          {% endif %}
           <td>{{ model.token_expiry_date }}</td>
           <td>
             <span class="p-relative">

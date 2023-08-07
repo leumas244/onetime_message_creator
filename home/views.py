@@ -31,8 +31,8 @@ user_logged_in.connect(loginsuccessful)
 def home(request):
     if request.user.is_authenticated:
         user = User.objects.get(username=request.user.username)
-        messages = OnetimeMessage.objects.filter(creator=user)[:5]
-        passwords = OnetimePassword.objects.filter(creator=user)[:5]
+        messages = OnetimeMessage.objects.filter(creator=user)
+        passwords = OnetimePassword.objects.filter(creator=user)
         all_models = []
         today = datetime.date.today()
         for message in messages:

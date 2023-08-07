@@ -2750,6 +2750,10 @@ label {
     width: 100%
 }
 
+a.link:hover {
+    color: #2f49d1
+}
+
 .footer {
     border-top: 1px solid #e0e1ea;
     padding-top: 14px;

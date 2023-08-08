@@ -1,61 +1,135 @@
-{% extends 'base.html' %}
-
-{% block head %}
-  <title>Home</title>
-{% endblock %}
-
-{% block main %}
-  <h2 class="main-title">Letzte Einmallinks</h2>
-  <div class="users-table table-wrapper">
-    <table class="posts-table">
-      <thead>
-        <tr class="users-table-info">
-          <th>Name</th>
-          <th>Öffner</th>
-          <th>Status</th>
-          <th>Ablauf Datum</th>
-          <th>Aktion</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for model in all_models %}
-        <tr>
-          <td><a href='{{ model.url }}' target="_blank" class="link">{{ model.name }}</a></td>
-          {% if model.name_of_opener != None %}
-            <td>{{ model.name_of_opener }}</td>
-          {% else %}
-            <td></td>
-          {% endif %}
-          {% if model.status == 'opend' %}
-            <td><span class="badge-pending">geöffnet</span></td>
-          {% elif model.status == 'expired' %}
-            <td><span class="badge-trashed">abgelaufen</span></td>
-          {% else %}
-            <td><span class="badge-success">nicht geöffnet</span></td>
-          {% endif %}
-          <td>{{ model.token_expiry_date }}</td>
-          <td>
-            <span class="p-relative">
-              <button class="dropdown-btn transparent-btn" type="button" title="Mehr Infos">
-                <div class="sr-only">Mehr Infos</div>
-                <i data-feather="more-horizontal" aria-hidden="true"></i>
-              </button>
-              <ul class="users-item-dropdown dropdown">
-                <li>
-                  <a href="{{ model.edit_url }}">Bearbeiten</a>
-                </li>
-                <li>
-                  <a href="##">Duplizieren</a>
-                </li>
-                <li>
-                  <a href="##">Löschen</a>
-                </li>
-              </ul>
-            </span>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+{% extends 'base.html' %} {% block head %}
+<title>Home</title>
+{% endblock %} {% block main %}
+<h2 class="main-title">Letzte Einmallinks</h2>
+<div class="users-table table-wrapper">
+  <table class="posts-table">
+    <thead>
+      <tr class="users-table-info">
+        <th>Name</th>
+        <th>Öffner</th>
+        <th>Status</th>
+        <th>Ablauf Datum</th>
+        <th>Aktion</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for model in all_models %}
+      <tr>
+        <td>
+          <a href="{{ model.url }}" target="_blank" class="link"
+            >{{ model.name }}</a
+          >
+        </td>
+        {% if model.name_of_opener != None %}
+        <td>{{ model.name_of_opener }}</td>
+        {% else %}
+        <td></td>
+        {% endif %} {% if model.status == 'opend' %}
+        <td><span class="badge-pending">geöffnet</span></td>
+        {% elif model.status == 'expired' %}
+        <td><span class="badge-trashed">abgelaufen</span></td>
+        {% else %}
+        <td><span class="badge-success">nicht geöffnet</span></td>
+        {% endif %}
+        <td>{{ model.token_expiry_date }}</td>
+        <td>
+          <span class="p-relative">
+            <button
+              class="dropdown-btn transparent-btn"
+              type="button"
+              title="Mehr Infos"
+            >
+              <div class="sr-only">Mehr Infos</div>
+              <i data-feather="more-horizontal" aria-hidden="true"></i>
+            </button>
+            <ul id="dropdown{{ model.link_type }}{{ model.id }}" class="users-item-dropdown dropdown">
+              <li>
+                <a href="{{ model.edit_url }}">Bearbeiten</a>
+              </li>
+              <li>
+                <input type="button" class="submit-link" value="Duplizieren" onclick="modal_func('modal_duplicate{{ model.link_type }}{{ model.id }}', 'dropdown{{ model.link_type }}{{ model.id }}')" />
+              </li>
+              <li>
+                <input
+                  id="myBtn"
+                  type="button"
+                  class="submit-link"
+                  value="Löschen"
+                  onclick="modal_func('modal_delete{{ model.link_type }}{{ model.id }}', 'dropdown{{ model.link_type }}{{ model.id }}')"
+                />
+              </li>
+            </ul>
+          </span>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+    {% for model in all_models %}
+    <form method="POST">
+      {% csrf_token %}
+    <div id="modal_duplicate{{ model.link_type }}{{ model.id }}" class="modal">
+      <div class="modal-content">
+        <p>Willst du wirklich "{{ model.name }}" duplizieren?</p>
+        <br />
+        <label class="form-label-wrapper">
+          <p class="form-label">Name</p>
+          <input
+            name="name"
+            class="form-input"
+            type="text"
+            value="{{ model.name }}"
+            required
+          />
+        </label>
+        <label class="form-label-wrapper">
+          <p class="form-label">Ablaufdatum</p>
+          <input
+            name="token_expiry_date"
+            class="form-input"
+            type="date"
+            value="{{ model.token_expiry_date|date:'Y-m-d' }}"
+            required
+          />
+        </label>
+        <button
+            class="form-btn primary-default-btn transparent-btn"
+            type="submit" name='duplicate' value="{{ model.link_type }}-{{ model.id }}">
+            Duplizieren
+          </button>
+      </div>
+    </div>
+    <div id="modal_delete{{ model.link_type }}{{ model.id }}" class="modal">
+      <div class="modal-content">
+        <p>Willst du wirklich "{{ model.name }}" löschen?</p>
+        <br />
+        <button
+            class="form-btn delete-btn"
+            type="submit" name='delete' value="{{ model.link_type }}-{{ model.id }}">
+            Löschen
+          </button>
+      </div>
+    </div>
+  </form>
+    {% endfor %}
+</div>
+<script>
+  // Get the modal
+  function modal_func(modal_id, dropdown_id) {
+    var modal = document.getElementById(modal_id);
+    var dropdown = document.getElementById(dropdown_id);
+    var layer = document.querySelector('.layer');
+  
+    modal.style.display = "block";
+    dropdown.classList.remove('active');
+    layer.classList.remove('active');
+  
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  }
+</script>
 {% endblock %}

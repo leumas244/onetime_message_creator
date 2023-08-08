@@ -43,6 +43,8 @@ def home(request):
             else:
                 status = 'unopend'
             dic = {
+                'id': message.id,
+                'link_type': 'message',
                 'name': message.name,
                 'name_of_opener': message.name_of_opener,
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[message.one_time_token])),
@@ -61,6 +63,8 @@ def home(request):
             else:
                 status = 'unopend'
             dic = {
+                'id': password.id,
+                'link_type': 'password',
                 'name': password.name,
                 'name_of_opener': password.name_of_opener,
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[password.one_time_token])),
@@ -73,7 +77,68 @@ def home(request):
 
         all_models.sort(key=lambda x: x.get('date'), reverse=True)
         dates = {'all_models': all_models}
-        return render(request, 'sites/home.html', dates)
+        if request.method == 'POST':
+            if 'duplicate' in request.POST:
+                value = request.POST.get('duplicate')
+                value_list = value.split('-')
+                link_type = value_list[0]
+                identifier = value_list[1]
+                if link_type == 'password':
+                    onetime_password = OnetimePassword.objects.get(id=identifier)
+
+                    name = request.POST.get('name')
+                    share_username = onetime_password.username
+                    password = onetime_password.password
+                    creator = onetime_password.creator
+                    one_time_token = token_generator(size=get_random_size())
+                    token_expiry_date = datetime.datetime.strptime(request.POST.get('token_expiry_date'), "%Y-%m-%d").date()
+
+                    new_onetime_password = OnetimePassword(
+                        name=name, username=share_username, password=password,
+                        creator=creator, one_time_token=one_time_token,
+                        token_expiry_date=token_expiry_date
+                    )
+                    new_onetime_password.save()
+
+                    return redirect('show_link_by_id', link_type='password', identifier=new_onetime_password.id)
+                
+                elif link_type == 'message':
+                    onetime_message = OnetimeMessage.objects.get(id=identifier)
+
+                    name = request.POST.get('name')
+                    message = onetime_message.message
+                    creator = onetime_message.creator
+                    one_time_token = token_generator(size=get_random_size())
+                    token_expiry_date = datetime.datetime.strptime(request.POST.get('token_expiry_date'), "%Y-%m-%d").date()
+
+                    new_onetime_message = OnetimeMessage(
+                        name=name, message=message,
+                        creator=creator, one_time_token=one_time_token,
+                        token_expiry_date=token_expiry_date
+                    )
+                    new_onetime_message.save()
+
+                    return redirect('show_link_by_id', link_type='message', identifier=new_onetime_message.id)
+                else:
+                    return redirect('home')
+
+            elif 'delete' in request.POST:
+                value = request.POST.get('delete')
+                value_list = value.split('-')
+                link_type = value_list[0]
+                identifier = value_list[1]
+                if link_type == 'password':
+                    onetime_link = OnetimePassword.objects.get(id=identifier)
+                    onetime_link.delete()
+                elif link_type == 'message':
+                    onetime_link = OnetimeMessage.objects.get(id=identifier)
+                    onetime_link.delete()
+                else:
+                    redirect('home')
+                
+                return redirect('home')
+        else:
+            return render(request, 'sites/home.html', dates)
 
     else:
         return redirect('login')

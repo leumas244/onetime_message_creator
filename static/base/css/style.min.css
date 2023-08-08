@@ -1183,6 +1183,17 @@ button.disabled:focus {
     color: #fff
 }
 
+.delete-btn {
+    background-color: #f26464;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.delete-btn:hover {
+    background-color: rgb(242, 110, 100);
+}
+
+
 .primary-white-btn,
 .secondary-default-btn {
     color: #2f49d1
@@ -1588,7 +1599,7 @@ input::placeholder {
 
 input:focus {
     outline: 0;
-    border: rgba(134, 182, 254, .5) solid!important;
+    border: rgba(134, 182, 254, .5) solid;
     -webkit-box-shadow: 0 0 0 2px rgba(134, 182, 254, .5);
     box-shadow: 0 0 0 2px rgba(134, 182, 254, .5)
 }
@@ -2753,6 +2764,86 @@ label {
 a.link:hover {
     color: #2f49d1
 }
+
+
+[type=button].submit-link {
+    background-color: transparent;
+    display: inline-block;
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 2.43;
+    color: #767676;
+    border-radius: 0px;
+    border-bottom: 1px solid #eee !important;
+    text-align: left;
+    cursor: pointer;
+    padding: 0px;
+}
+
+[type=button].submit-link::-moz-focus-inner {
+    border-bottom: 1px solid #eee;
+}
+
+.submit-link:hover {
+    color: #2f49d1;
+}
+
+.submit-link:focus {
+    outline-width: 0;
+    border: none;
+    -webkit-box-shadow: 0 0 0 0px;
+    box-shadow: 0 0 0 0px;
+}
+
+.darkmode [type=button].submit-link {
+    border-bottom-color: #2c2c42  !important;
+    color: #d6d7e3
+}
+
+.darkmode .submit-link:focus {
+    outline-width: 0;
+    border: none;
+    -webkit-box-shadow: 0 0 0 0px;
+    box-shadow: 0 0 0 0px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 200px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 -2px 24px rgba(160, 163, 189, .25);
+    border-radius: 4px;
+    border: 1px solid #888;
+    transition: .3s all;
+    width: 25%;
+}
+
+.modal-content p {
+    text-align: center;
+}
+
+.darkmode .modal-content {
+    background-color: #24243a;
+    color: #d6d7e3;
+}
+
 
 .footer {
     border-top: 1px solid #e0e1ea;

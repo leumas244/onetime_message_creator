@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Neuer Passwort-Link</title>
+<title>{{ onetime_link.name }} bearbeiten</title>
 {% endblock %} 
 
 {% block main %}
 <article class="white-block">
   <div class="top-cat-title">
-    <h2>Neuen Passwort Link erstellen</h2>
+    <h2>"{{ onetime_link.name }}" bearbeiten</h2>
   </div>
   <br />
   <form method="POST">
@@ -23,6 +23,7 @@
                 name="name"
                 class="form-input"
                 type="text"
+                value="{{ onetime_link.name }}"
                 required
               />
             </label>
@@ -35,7 +36,7 @@
                 name="token_expiry_date"
                 class="form-input"
                 type="date"
-                min="{{ now|date:'Y-m-d' }}"
+                value="{{ onetime_link.token_expiry_date|date:'Y-m-d' }}"
                 required
               />
             </label>
@@ -43,6 +44,24 @@
         </div>
       </li>
       <br />
+      {% if link_type == 'message' %}
+      <li>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="form-label-wrapper">
+              <p class="form-label">Nachricht</p>
+              <textarea
+                id="message"
+                name="message"
+                class="form-input"
+                style="height:250px;"
+                required
+              />{{ onetime_link.message }}</textarea>
+            </label>
+          </div>
+        </div>
+      </li>
+      {% elif link_type == 'password' %}
       <li>
         <div class="row">
           <div class="col-md-6">
@@ -53,6 +72,7 @@
                 name="username"
                 class="form-input"
                 type="text"
+                value="{{ onetime_link.username }}"
               />
             </label>
           </div>
@@ -64,7 +84,42 @@
                 name="password"
                 class="form-input"
                 type="text"
+                value="{{ onetime_link.password }}"
                 required
+              />
+            </label>
+          </div>
+        </div>
+      </li>
+      {% endif %}
+      <li>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="form-label-wrapper">
+              <p class="form-label">Geöffnet?</p>
+              <input
+                id="opend"
+                name="opend"
+                class="form-input"
+                type="checkbox"
+                value="checked"
+                {% if onetime_link.opend %}
+                checked
+                {% endif %}
+              />
+            </label>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label-wrapper">
+              <p class="form-label">Öffner</p>
+              <input
+                id="name_of_opener"
+                name="name_of_opener"
+                class="form-input"
+                type="text"
+                {% if onetime_link.name_of_opener != None %}
+                value="{{ onetime_link.name_of_opener }}"
+                {% endif %}
               />
             </label>
           </div>

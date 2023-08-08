@@ -48,7 +48,8 @@ def home(request):
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[message.one_time_token])),
                 'status': status,
                 'token_expiry_date': message.token_expiry_date,
-                'date': message.update_date
+                'date': message.update_date,
+                'edit_url': request.build_absolute_uri(reverse('edit_by_id', args=['message', message.id])),
             }
             all_models.append(dic)
             
@@ -65,7 +66,8 @@ def home(request):
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[password.one_time_token])),
                 'status': status,
                 'token_expiry_date': password.token_expiry_date,
-                'date': password.update_date
+                'date': password.update_date,
+                'edit_url': request.build_absolute_uri(reverse('edit_by_id', args=['password', password.id])),
             }
             all_models.append(dic)
 
@@ -75,7 +77,74 @@ def home(request):
 
     else:
         return redirect('login')
-      
+    
+
+def edit_by_id(request, link_type, identifier):
+    if request.user.is_authenticated:
+        user = User.objects.get(username=request.user.username)
+        if link_type == 'password':
+            onetime_link = OnetimePassword.objects.get(id=identifier)
+        elif link_type == 'message':
+            onetime_link = OnetimeMessage.objects.get(id=identifier)
+        else:
+            redirect('home')
+        
+        if onetime_link.creator == user:
+            token_link = request.build_absolute_uri(reverse('share_by_token', args=[onetime_link.one_time_token]))
+            dates = {
+                'onetime_link': onetime_link,
+                'token_link': token_link,
+                'link_type': link_type,
+            }
+            if request.method == 'POST':
+                try:
+                    if request.POST.get('name') != '':
+                        onetime_link.name = request.POST.get('name')
+                        onetime_link.save()
+
+                    if request.POST.get('token_expiry_date') != '':
+                        onetime_link.token_expiry_date = datetime.datetime.strptime(request.POST.get('token_expiry_date'), "%Y-%m-%d").date()
+                        onetime_link.save()
+
+                    if request.POST.get('opend') == 'checked':
+                        onetime_link.opend = True
+                        onetime_link.save()
+                    else:
+                        onetime_link.opend = False
+                        onetime_link.save()
+                    
+                    onetime_link.name_of_opener = request.POST.get('name_of_opener')
+                    onetime_link.save()
+                    
+                    if link_type == 'password':
+                        if request.POST.get('username') != '':
+                            onetime_link.username = request.POST.get('username')
+                            onetime_link.save()
+                        
+                        if request.POST.get('password') != '':
+                            onetime_link.password = request.POST.get('password')
+                            onetime_link.save()
+                    
+                    elif link_type == 'message':
+                        if request.POST.get('message') != '':
+                            onetime_link.message = request.POST.get('message')
+                            onetime_link.save()
+
+                    messages.success(request, 'Du hast erfolgreich den Link bearbeitet!')
+                    return redirect('home')
+                except Exception as e:
+                    messages.error(request, 'Der Link konnten nicht bearbeitet werden! ('+ str(e) +')')
+                    return redirect('edit_by_id', link_type=link_type, identifier=identifier)
+                
+            else:
+                return render(request, 'sites/edit_by_id.html', dates)
+        else:
+            redirect('home')
+
+
+    else:
+        return redirect('login')
+
 
 def base(request):
     if request.user.is_authenticated:
@@ -88,7 +157,10 @@ def base(request):
 
 def new_password(request):
     if request.user.is_authenticated:
-        dates = {}
+        now = datetime.datetime.now()
+        dates = {
+            'now': now,
+        }
 
         if request.method == 'POST':
             user = User.objects.get(username=request.user.username)
@@ -117,6 +189,10 @@ def new_password(request):
 
 def new_message(request):
     if request.user.is_authenticated:
+        now = datetime.datetime.now()
+        dates = {
+            'now': now,
+        }
         if request.method == 'POST':
             user = User.objects.get(username=request.user.username)
 
@@ -134,8 +210,7 @@ def new_message(request):
             new_onetime_message.save()
 
             return redirect('show_link_by_id', link_type='message', identifier=new_onetime_message.id)
-        
-        dates = {}
+
         return render(request, 'sites/new_message.html', dates)
 
     else:

@@ -35,6 +35,7 @@
                 name="token_expiry_date"
                 class="form-input"
                 type="date"
+                min="{{ now|date:'Y-m-d' }}"
                 required
               />
             </label>

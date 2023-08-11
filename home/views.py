@@ -209,9 +209,8 @@ def edit_by_id(request, link_type, identifier):
                     onetime_link.save()
                     
                     if link_type == 'password':
-                        if request.POST.get('username') != '':
-                            onetime_link.username = request.POST.get('username')
-                            onetime_link.save()
+                        onetime_link.username = request.POST.get('username')
+                        onetime_link.save()
                         
                         if request.POST.get('password') != '':
                             onetime_link.password = request.POST.get('password')

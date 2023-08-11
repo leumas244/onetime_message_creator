@@ -66,7 +66,9 @@
         </nav>
         <main class="main users chart-page" id="skip-target">
           <div class="container">
-            {% if status == 'link_not_aviable' %}
+            {% if status == 'server_error' %}
+            <h1 class="status-title">Es ist ein Server Problem aufgetreten!</h1>
+            {% elif status == 'link_not_aviable' %}
             <h1 class="status-title">Kein solcher Link vorhanden</h1>
             {% elif status == 'password_link_aviable' %}
             <article class="white-block">

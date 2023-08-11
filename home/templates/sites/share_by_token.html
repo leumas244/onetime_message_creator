@@ -65,7 +65,7 @@
           </div>
         </nav>
         <main class="main users chart-page" id="skip-target">
-          <div class="container">
+          <div class="container-2">
             {% if status == 'server_error' %}
             <h1 class="status-title">Es ist ein Server Problem aufgetreten!</h1>
             {% elif status == 'link_not_aviable' %}
@@ -73,17 +73,19 @@
             {% elif status == 'password_link_aviable' %}
             <article class="white-block">
               <div class="top-cat-title">
-                <h2>Hier kannst du das Passwort für "{{ name }}" öffnen</h2>
-                <h2>Bitte trage deinen Namen ein</h2>
+                <h1 class="color-wihte">Hier kannst du das Passwort für "{{ name }}" öffnen</h1>
+                <br>
+                <p class="my-paragraph" style="font-size: 20px;">Dies ist eine Einmal-Link. Er kann nur EINMAL geöffnet werden und dies auch nur für eine begrenzte Zeit.</p>
+                <p class="my-paragraph" style="font-size: 20px;">Bitte trage deinen Namen ein.</p>
               </div>
               <br />
               <form method="POST">
                 {% csrf_token %}
                 <ul class="top-cat-list">
                   <li>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <label class="form-label-wrapper">
+                    <div class="row flex-center">
+                      <div class="col-md-10">
+                        <label class="form-label-wrapper flex-center">
                           <p class="form-label">Name</p>
                           <input
                             id="name"
@@ -99,8 +101,8 @@
                 </ul>
                 <br />
                 <br />
-                <div class="row">
-                  <div class="col-md-2">
+                <div class="row flex-center">
+                  <div class="col-md-2 flex-center">
                     <form>
                       <button
                         class="form-btn primary-default-btn transparent-btn"
@@ -114,17 +116,19 @@
             {% elif status == 'message_link_aviable' %}
             <article class="white-block">
               <div class="top-cat-title">
-                <h2>Hier kannst du die Nachricht für "{{ name }}" öffnen</h2>
-                <h2>Bitte trage deinen Namen ein</h2>
+                <h1 class="color-wihte">Hier kannst du die Nachricht "{{ name }}" öffnen</h1>
+                <br>
+                <p class="my-paragraph" style="font-size: 20px;">Dies ist eine Einmal-Link. Er kann nur EINMAL geöffnet werden und dies auch nur für eine begrenzte Zeit.</p>
+                <p class="my-paragraph" style="font-size: 20px;">Bitte trage deinen Namen ein.</p>
               </div>
               <br />
               <form method="POST">
                 {% csrf_token %}
                 <ul class="top-cat-list">
                   <li>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <label class="form-label-wrapper">
+                    <div class="row flex-center">
+                      <div class="col-md-10">
+                        <label class="form-label-wrapper flex-center">
                           <p class="form-label">Name</p>
                           <input
                             id="name"
@@ -140,8 +144,8 @@
                 </ul>
                 <br />
                 <br />
-                <div class="row">
-                  <div class="col-md-2">
+                <div class="row flex-center">
+                  <div class="col-md-2 flex-center">
                     <form>
                       <button
                         class="form-btn primary-default-btn transparent-btn"
@@ -158,7 +162,7 @@
             {% if share_username == '' or share_username == null %}
             <article class="white-block">
               <div class="top-cat-title">
-                <h2 style="text-align: center">Passwort für "{{ name }}"</h2>
+                <h1 class="color-wihte">Passwort für "{{ name }}"</h1>
               </div>
               <br />
               <ul class="top-cat-list">
@@ -189,7 +193,7 @@
             {% else %}
             <article class="white-block">
               <div class="top-cat-title">
-                <h2 style="text-align: center">Passwort für "{{ name }}"</h2>
+                <h1 class="color-wihte">Passwort für "{{ name }}"</h1>
               </div>
               <br />
               <ul class="top-cat-list">
@@ -239,7 +243,7 @@
             {% elif status == 'message_link_aviable_and_open' %}
             <article class="white-block">
               <div class="top-cat-title">
-                <h2 style="text-align: center">Nachricht für "{{ name }}"</h2>
+                <h1 class="color-wihte">Nachricht "{{ name }}"</h1>
               </div>
               <br />
               <ul class="top-cat-list">
@@ -251,7 +255,7 @@
                         <textarea
                           id="message"
                           name="message"
-                          class="form-input"
+                          class="form-input password-share"
                           style="height: 250px"
                           readonly
                         />{{ message }}</textarea>

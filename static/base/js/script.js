@@ -43,6 +43,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });*/
 
     feather.replace();
+    var darkMode = localStorage.getItem('darkMode');
+    if (darkMode == null) {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('darkmode');
+            localStorage.setItem('darkMode', 'enabled');
+        } else {
+            localStorage.setItem('darkMode', 'disabled');
+        }
+    }
 
     (function() {
         var sidebar = document.querySelector('.sidebar'),
@@ -203,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var disableDarkMode = function disableDarkMode() {
             document.body.classList.remove('darkmode');
-            localStorage.setItem('darkMode', null);
+            localStorage.setItem('darkMode', 'disabled');
         };
 
         if (darkMode === 'enabled') {

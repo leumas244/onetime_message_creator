@@ -28,6 +28,7 @@ class OnetimeMessage(models.Model):
     one_time_token = models.CharField('Einmal-Token', blank=False, null=False, max_length=256)
     token_expiry_date = models.DateField('Token Ablauf Datum', blank=False, null=False)
     opend = models.BooleanField('Geöffnet?', blank=False, null=False, default=False)
+    open_date = models.DateTimeField('Öffnungsdatum', blank=True, null=True)
     
     update_date = models.DateTimeField('Geändert', auto_now=True)
     creation_date = models.DateTimeField('Erstellt', auto_now_add=True)
@@ -52,6 +53,7 @@ class OnetimePassword(models.Model):
     token_expiry_date = models.DateField('Token Ablauf Datum', blank=False, null=False)
 
     opend = models.BooleanField('Geöffnet?', blank=False, null=False, default=False)
+    open_date = models.DateTimeField('Öffnungsdatum', blank=True, null=True)
     
     update_date = models.DateTimeField('Geändert', auto_now=True)
     creation_date = models.DateTimeField('Erstellt', auto_now_add=True)

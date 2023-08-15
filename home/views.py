@@ -54,6 +54,7 @@ def home(request):
                 'name_of_opener': message.name_of_opener,
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[message.one_time_token])),
                 'status': status,
+                'open_date': message.open_date,
                 'token_expiry_date': message.token_expiry_date,
                 'date': message.update_date,
                 'edit_url': request.build_absolute_uri(reverse('edit_by_id', args=['message', message.id])),
@@ -74,6 +75,7 @@ def home(request):
                 'name_of_opener': password.name_of_opener,
                 'url': request.build_absolute_uri(reverse('share_by_token', args=[password.one_time_token])),
                 'status': status,
+                'open_date': password.open_date,
                 'token_expiry_date': password.token_expiry_date,
                 'date': password.update_date,
                 'edit_url': request.build_absolute_uri(reverse('edit_by_id', args=['password', password.id])),
@@ -189,6 +191,7 @@ def edit_by_id(request, link_type, identifier):
                 'link_type': link_type,
             }
             if request.method == 'POST':
+                now = datetime.datetime.now()
                 try:
                     if request.POST.get('name') != '':
                         onetime_link.name = request.POST.get('name')
@@ -199,10 +202,13 @@ def edit_by_id(request, link_type, identifier):
                         onetime_link.save()
 
                     if request.POST.get('opend') == 'checked':
-                        onetime_link.opend = True
-                        onetime_link.save()
+                        if not onetime_link.opend:
+                            onetime_link.opend = True
+                            onetime_link.open_date = now
+                            onetime_link.save()
                     else:
                         onetime_link.opend = False
+                        onetime_link.open_date = None
                         onetime_link.save()
                     
                     onetime_link.name_of_opener = request.POST.get('name_of_opener')
@@ -338,6 +344,7 @@ def share_by_token(request, token):
     now = datetime.date.today()
 
     if now <= token_expiry_date and open_status == False:
+        now = datetime.datetime.now()
         if status == 'password_link_aviable':
             if request.method == 'POST':
                 opener = request.POST.get('name')
@@ -345,6 +352,7 @@ def share_by_token(request, token):
 
                 try:
                     onetime_link.opend = True
+                    onetime_link.open_date = now
                     onetime_link.name_of_opener = opener
                     onetime_link.save()
                 except:
@@ -371,6 +379,7 @@ def share_by_token(request, token):
 
                 try:
                     onetime_link.opend = True
+                    onetime_link.open_date = now
                     onetime_link.name_of_opener = opener
                     onetime_link.save()
                 except:

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Passwort ändern</title>
+{% endblock %}
+
+{% block main %}
+<article class="white-block">
+    <div class="top-cat-title">
+        <h2>Hallo {{ user.first_name }}! Hier kannst du dein Passwort setzen</h2>
+    </div>
+    <br>
+    <div class="top-cat-subtitle">
+        <h4>Dein Passwort darf deinen anderen persönlichen Daten nicht zu ähnlich sein.</h4>
+        <h4>Dein Benutzername ist: <strong>{{ user.username }}</stromg></h4>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <ul class="top-cat-list">
+            <li>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label-wrapper">
+                            <p class="form-label">Bitte gebe hier dein Passwort ein</p>
+                            <input id="id_new_password1" name="new_password1" class="form-input" type="password"
+                                   placeholder="Neues Passwort" required>
+                        </label>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-label" id="8char">
+                                    <i class="check-icon" data-feather="check" aria-hidden="true"
+                                       style="color:#00A41E;"></i>
+                                    <i class="x-icon" data-feather="x-circle" aria-hidden="true"
+                                       style="color:#FF0004;"></i>
+                                    8 Buchstaben
+                                </div>
+                                <br>
+                                <div class="form-label" id="ucase">
+                                    <i class="check-icon" data-feather="check" aria-hidden="true"
+                                       style="color:#00A41E;"></i>
+                                    <i class="x-icon" data-feather="x-circle" aria-hidden="true"
+                                       style="color:#FF0004;"></i>
+                                    Großbuchstabe
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-label" id="lcase">
+                                    <i class="check-icon" data-feather="check" aria-hidden="true"
+                                       style="color:#00A41E;"></i>
+                                    <i class="x-icon" data-feather="x-circle" aria-hidden="true"
+                                       style="color:#FF0004;"></i>
+                                    Kleinbuchstabe
+                                </div>
+                                <br>
+                                <div class="form-label" id="num">
+                                    <i class="check-icon" data-feather="check" aria-hidden="true"
+                                       style="color:#00A41E;"></i>
+                                    <i class="x-icon" data-feather="x-circle" aria-hidden="true"
+                                       style="color:#FF0004;"></i>
+                                    Nummer
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-wrapper">
+                            <p class="form-label">Bitte gebe hier dein Passwort noch einmal ein</p>
+                            <input id="id_new_password2" name="new_password2" class="form-input" type="password"
+                                   placeholder="Neues Passwort" required>
+                        </label>
+                        <div class="form-label" id="password_match">
+                            <i class="check-icon" data-feather="check" aria-hidden="true" style="color:#00A41E;"></i>
+                            <i class="x-icon" data-feather="x-circle" aria-hidden="true" style="color:#FF0004;"></i>
+                            Passwort stimmt überein
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-1">
+                <form>
+                    <button class="form-btn primary-default-btn transparent-btn disabled" type="submit" disabled id="submitBtn">
+                        Speichern
+                    </button>
+                </form>
+            </div>
+        </div>
+    </form>
+</article>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% load static %}
+<!-- Password Validator -->
+<script src="{% static 'base/js/reset_password_validator.js' %}"></script>
+{% endblock %}

@@ -60,8 +60,24 @@
                 <li>
                     <a href="{% url 'admin:index' %}" target="_blank">
                         <span class="icon setting" aria-hidden="true"></span>
-                        Admin-Einstellungen
+                        Django-Einstellungen
                     </a>
+                </li>
+                <li>
+                    {% url 'admin_settings' as the_url %}
+                    {% if request.path == the_url %}
+                    <a class="active" href="{% url 'admin_settings' %}"><span class="icon setting" aria-hidden="true"></span>Admin-Einstellungen</a>
+                    {% else %}
+                    <a href="{% url 'admin_settings' %}"><span class="icon setting" aria-hidden="true"></span>Admin-Einstellungen</a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% url 'add_user' as the_url %}
+                    {% if request.path == the_url %}
+                    <a class="active" href="{% url 'add_user' %}"><span class="icon setting" aria-hidden="true"></span>Neuer User</a>
+                    {% else %}
+                    <a href="{% url 'add_user' %}"><span class="icon setting" aria-hidden="true"></span>Neuer User</a>
+                    {% endif %}
                 </li>
             </ul>
             {% endif %}

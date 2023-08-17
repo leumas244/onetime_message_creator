@@ -15,4 +15,9 @@ urlpatterns = [
     path('Link/<str:link_type>/<int:identifier>/', views.show_link_by_id, name='show_link_by_id'),
     path('Bearbeiten/<str:link_type>/<int:identifier>/', views.edit_by_id, name='edit_by_id'),
     path('base/', views.base, name="base"),
+    path('account/<str:token>/', views.login_with_token, name='login_with_token'),
+    path('first_login/', views.first_login, name='first_login'),
+    path('neuer_Nutzer/', views.add_user, name='add_user'),
+    path('Admin_Einstellungen/', views.admin_settings, name='admin_settings'),
+    path('Passwort_vergessen/', views.forgot_password, name="forgot_password"),
 ]

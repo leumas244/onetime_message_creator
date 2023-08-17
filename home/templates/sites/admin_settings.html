@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Admin Einstellungen</title>
+{% endblock %}
+
+{% block main %}
+<article class="white-block">
+    <div class="top-cat-title">
+        <h2>Admin Einstellungen</h2>
+    </div>
+    <br>
+    <form method="POST">
+        {% csrf_token %}
+        <ul class="top-cat-list">
+            <li>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label-wrapper">
+                            <p class="form-label">Email-Absender-Name</p>
+                            <input id="email_user_name" name="email_user_name" class="form-input" type="text"
+                                value="{{ admin_setting.email_user_name }}" required>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-wrapper">
+                            <p class="form-label">Email-Absender</p>
+                            <input id="email_user" name="email_user" class="form-input" type="email"
+                                value="{{ admin_setting.email_user }}" required>
+                        </label>
+                    </div>
+                </div>
+            </li>
+            <br>
+            <li>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label-wrapper">
+                            <p class="form-label">Email-ErrorEmpfänger-Name</p>
+                            <input id="name_error_reciever" name="name_error_reciever" class="form-input" type="text"
+                                value="{{ admin_setting.name_error_reciever }}" required>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-wrapper">
+                            <p class="form-label">Email-ErrorEmpfänger</p>
+                            <input id="email_error_receiver" name="email_error_receiver" class="form-input" type="email"
+                                value="{{ admin_setting.email_error_receiver }}" required>
+                        </label>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-1">
+                <form>
+                    <button class="form-btn primary-default-btn transparent-btn" type="submit">
+                        Speichern
+                    </button>
+                </form>
+            </div>
+        </div>
+    </form>
+</article>
+{% endblock %}

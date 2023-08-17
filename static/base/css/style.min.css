@@ -2972,6 +2972,15 @@ a.link:hover {
     width: 100%
 }
 
+.pw-forgot {
+    text-align: center; 
+    font-size: 13px;
+}
+
+.darkmode .pw-forgot {
+    color: #d6d7e3;
+}
+
 .password-share {
     font-family: "Consolas";
 }

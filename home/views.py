@@ -3,6 +3,7 @@ import string
 import datetime
 import random
 import hashlib
+import pytz
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
@@ -13,7 +14,7 @@ from django.contrib.auth import update_session_auth_hash, login
 from django.urls import reverse
 from .models import OnetimePassword, OnetimeMessage, AdditionalUserInfo, AdminSetting
 
-from .helper_package.email_functions import send_invation_mail, send_reset_mail, send_password_forgoten_problem_mail, send_exeption_mail
+from .helper_package.email_functions import send_invation_mail, send_reset_mail, send_password_forgoten_problem_mail, send_opening_mail
 
 
 
@@ -379,6 +380,8 @@ def share_by_token(request, token):
 
     if now <= token_expiry_date and open_status == False:
         now = datetime.datetime.now()
+        timezone = pytz.timezone("Europe/Berlin")
+        now = pytz.utc.localize(now, is_dst=None).astimezone(timezone)
         if status == 'password_link_aviable':
             if request.method == 'POST':
                 opener = request.POST.get('name')
@@ -399,6 +402,12 @@ def share_by_token(request, token):
                         'share_username': onetime_link.username,
                         'password': onetime_link.password
                         }
+                first_name = onetime_link.creator.first_name
+                last_name = onetime_link.creator.last_name
+                email = onetime_link.creator.email
+                link_type = 'Passwort'
+                link_name = onetime_link.name
+                send_opening_mail(first_name, last_name, email, link_type, link_name, opener)
                 return render(request, 'sites/share_by_token.html', dates)
             else:
                 dates = {'status': status,
@@ -424,6 +433,12 @@ def share_by_token(request, token):
                         'name': onetime_link.name,
                         'message': onetime_link.message
                         }
+                first_name = onetime_link.creator.first_name
+                last_name = onetime_link.creator.last_name
+                email = onetime_link.creator.email
+                link_type = 'Nachricht'
+                link_name = onetime_link.name
+                send_opening_mail(first_name, last_name, email, link_type, link_name, opener)
                 return render(request, 'sites/share_by_token.html', dates)
             
             else:

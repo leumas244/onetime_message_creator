@@ -43,6 +43,13 @@ def send_exeption_mail(traceback_details, username):
     send_mail(admin_settings.name_error_reciever, admin_settings.email_error_receiver, mail_massage, subject)
 
 
+def send_opening_mail(first_name, last_name, email, link_type, link_name, name_of_opener):
+    full_name = f'{first_name} {last_name}'
+    subject = f'Einmal-{link_type} auf einmallink.schlingh3ider.de geöffnet'
+    mail_massage = f'Hallo {first_name},\n\ndeine {link_type} "{link_name}" wurde geöffnet.\nDer Öffner hat den Name "{name_of_opener}" angegeben.\n\nViele Grüße\ndein Admin'
+    send_mail(full_name, email, mail_massage, subject)
+
+
 def send_invation_mail(username, first_name, last_name, email, token_link):
     full_name = f'{first_name} {last_name}'
     subject = f'Einladung zu einmallink.schlingh3ider.de'

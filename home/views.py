@@ -38,6 +38,8 @@ def home(request):
         user = request.user
         add_user_info = AdditionalUserInfo.objects.get(user=user)
         if add_user_info.has_loged_in:
+            now = datetime.datetime.now()
+            in_two_weeks = now + datetime.timedelta(weeks=2)
             try:
                 user = User.objects.get(username=request.user.username)
                 messages = OnetimeMessage.objects.filter(creator=user)
@@ -58,6 +60,7 @@ def home(request):
                 dic = {
                     'id': message.id,
                     'link_type': 'message',
+                    'link_type_name': 'Nachricht',
                     'name': message.name,
                     'name_of_opener': message.name_of_opener,
                     'url': request.build_absolute_uri(reverse('share_by_token', args=[message.one_time_token])),
@@ -79,6 +82,7 @@ def home(request):
                 dic = {
                     'id': password.id,
                     'link_type': 'password',
+                    'link_type_name': 'Passwort',
                     'name': password.name,
                     'name_of_opener': password.name_of_opener,
                     'url': request.build_absolute_uri(reverse('share_by_token', args=[password.one_time_token])),
@@ -91,7 +95,11 @@ def home(request):
                 all_models.append(dic)
 
             all_models.sort(key=lambda x: x.get('date'), reverse=True)
-            dates = {'all_models': all_models}
+            dates = {
+                'all_models': all_models,
+                'now': now,
+                'in_two_weeks': in_two_weeks,
+                }
             if request.method == 'POST':
                 if 'duplicate' in request.POST:
                     value = request.POST.get('duplicate')
@@ -104,7 +112,7 @@ def home(request):
 
                             name = request.POST.get('name')
                             share_username = onetime_password.username
-                            password = onetime_password.password
+                            password = request.POST.get('password')
                             creator = onetime_password.creator
                             one_time_token = token_generator(size=get_random_size())
                             token_expiry_date = datetime.datetime.strptime(request.POST.get('token_expiry_date'), "%Y-%m-%d").date()
@@ -281,8 +289,10 @@ def new_password(request):
         add_user_info = AdditionalUserInfo.objects.get(user=user)
         if add_user_info.has_loged_in:
             now = datetime.datetime.now()
+            in_two_weeks = now + datetime.timedelta(weeks=2)
             dates = {
                 'now': now,
+                'in_two_weeks': in_two_weeks,
             }
 
             if request.method == 'POST':
@@ -324,8 +334,10 @@ def new_message(request):
         add_user_info = AdditionalUserInfo.objects.get(user=user)
         if add_user_info.has_loged_in:
             now = datetime.datetime.now()
+            in_two_weeks = now + datetime.timedelta(weeks=2)
             dates = {
                 'now': now,
+                'in_two_weeks': in_two_weeks,
             }
             if request.method == 'POST':
                 try:
@@ -408,6 +420,8 @@ def share_by_token(request, token):
                 link_type = 'Passwort'
                 link_name = onetime_link.name
                 send_opening_mail(first_name, last_name, email, link_type, link_name, opener)
+                onetime_link.password = ""
+                onetime_link.save()
                 return render(request, 'sites/share_by_token.html', dates)
             else:
                 dates = {'status': status,

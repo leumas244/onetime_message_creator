@@ -7,6 +7,7 @@
     <thead>
       <tr class="users-table-info">
         <th>Name</th>
+        <th>Typ</th>
         <th>Öffner</th>
         <th>Status</th>
         <th>Ablauf Datum</th>
@@ -21,6 +22,7 @@
             >{{ model.name }}</a
           >
         </td>
+        <td>{{ model.link_type_name }}</td>
         {% if model.name_of_opener != None %}
         <td>{{ model.name_of_opener }}</td>
         {% else %}
@@ -89,10 +91,23 @@
             name="token_expiry_date"
             class="form-input"
             type="date"
-            value="{{ model.token_expiry_date|date:'Y-m-d' }}"
+            value="{{ in_two_weeks|date:'Y-m-d' }}"
+            min="{{ now|date:'Y-m-d' }}"
             required
           />
         </label>
+        {% if model.link_type == 'password' %}
+        <label class="form-label-wrapper">
+          <p class="form-label">Passwort erneut eingeben</p>
+          <input
+            id="password"
+            name="password"
+            class="form-input"
+            type="text"
+            required
+          />
+        </label>
+        {% endif %}
         <button
             class="form-btn primary-default-btn transparent-btn"
             type="submit" name='duplicate' value="{{ model.link_type }}-{{ model.id }}">

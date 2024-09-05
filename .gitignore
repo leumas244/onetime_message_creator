@@ -4,5 +4,6 @@
 **/__pycache__
 /onetime_message_env
 
+/db
 /db.sqlite3
 *.pyc

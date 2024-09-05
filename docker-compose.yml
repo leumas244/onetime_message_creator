@@ -8,4 +8,4 @@ services:
     volumes:
       - /opt/django-apps/data/onetime_message_creator:/app/db
     ports:
-      - "8000:8000"
+      - "10101:8000"

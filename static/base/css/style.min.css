@@ -3103,7 +3103,7 @@ a.link:hover {
     display: initial;
 }
 
-.darkmode {
+.darkmode body{
     background-color: #11111d
 }
 

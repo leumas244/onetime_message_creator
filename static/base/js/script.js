@@ -43,15 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });*/
 
     feather.replace();
-    var darkMode = localStorage.getItem('darkMode');
-    if (darkMode == null) {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('darkmode');
-            localStorage.setItem('darkMode', 'enabled');
-        } else {
-            localStorage.setItem('darkMode', 'disabled');
-        }
-    }
 
     (function() {
         var sidebar = document.querySelector('.sidebar'),
@@ -201,35 +192,32 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 
     (function() {
-        Chart.defaults.backgroundColor = '#000';
+        /* Chart.defaults.backgroundColor = '#000'; */
         var darkMode = localStorage.getItem('darkMode');
         var darkModeToggle = document.querySelector('.theme-switcher');
-
+    
         var enableDarkMode = function enableDarkMode() {
-            document.body.classList.add('darkmode');
+            document.documentElement.classList.add('darkmode');
             localStorage.setItem('darkMode', 'enabled');
         };
-
+    
         var disableDarkMode = function disableDarkMode() {
-            document.body.classList.remove('darkmode');
+            document.documentElement.classList.remove('darkmode');
             localStorage.setItem('darkMode', 'disabled');
         };
 
-        if (darkMode === 'enabled') {
-            enableDarkMode();
-        }
-
+        
         if (darkModeToggle) {
             darkModeToggle.addEventListener('click', function() {
                 darkMode = localStorage.getItem('darkMode');
-
+    
                 if (darkMode !== 'enabled') {
                     enableDarkMode();
                 } else {
                     disableDarkMode();
                 }
-
-                addData();
+    
+                /* addData(); */
             });
         }
     })();
@@ -523,7 +511,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
     /* Change data of all charts */
 
-
+    /* 
     function addData() {
         var darkMode = localStorage.getItem('darkMode');
 
@@ -545,4 +533,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     addData();
+    */
 });

@@ -28,7 +28,11 @@
         {% else %}
         <td></td>
         {% endif %} {% if model.status == 'opend' %}
-        <td><span class="badge-pending">geöffnet<br>{{ model.open_date|date:'d.m.y H:i' }}</span></td>
+        <td>
+          <span class="badge-pending"
+            >geöffnet<br />{{ model.open_date|date:'d.m.y H:i' }}</span
+          >
+        </td>
         {% elif model.status == 'expired' %}
         <td><span class="badge-trashed">abgelaufen</span></td>
         {% else %}
@@ -45,12 +49,20 @@
               <div class="sr-only">Mehr Infos</div>
               <i data-feather="more-horizontal" aria-hidden="true"></i>
             </button>
-            <ul id="dropdown{{ model.link_type }}{{ model.id }}" class="users-item-dropdown dropdown">
+            <ul
+              id="dropdown{{ model.link_type }}{{ model.id }}"
+              class="users-item-dropdown dropdown"
+            >
               <li>
                 <a href="{{ model.edit_url }}">Bearbeiten</a>
               </li>
               <li>
-                <input type="button" class="submit-link" value="Duplizieren" onclick="modal_func('modal_duplicate{{ model.link_type }}{{ model.id }}', 'dropdown{{ model.link_type }}{{ model.id }}')" />
+                <input
+                  type="button"
+                  class="submit-link"
+                  value="Duplizieren"
+                  onclick="modal_func('modal_duplicate{{ model.link_type }}{{ model.id }}', 'dropdown{{ model.link_type }}{{ model.id }}')"
+                />
               </li>
               <li>
                 <input
@@ -68,9 +80,9 @@
       {% endfor %}
     </tbody>
   </table>
-    {% for model in all_models %}
-    <form method="POST">
-      {% csrf_token %}
+  {% for model in all_models %}
+  <form method="POST">
+    {% csrf_token %}
     <div id="modal_duplicate{{ model.link_type }}{{ model.id }}" class="modal">
       <div class="modal-content">
         <p>Willst du wirklich "{{ model.name }}" duplizieren?</p>
@@ -109,42 +121,52 @@
         </label>
         {% endif %}
         <button
-            class="form-btn primary-default-btn transparent-btn"
-            type="submit" name='duplicate' value="{{ model.link_type }}-{{ model.id }}">
-            Duplizieren
-          </button>
+          class="form-btn primary-default-btn transparent-btn"
+          type="submit"
+          name="duplicate"
+          value="{{ model.link_type }}-{{ model.id }}"
+        >
+          Duplizieren
+        </button>
       </div>
     </div>
+  </form>
+  {% endfor %} {% for model in all_models %}
+  <form method="POST">
+    {% csrf_token %}
     <div id="modal_delete{{ model.link_type }}{{ model.id }}" class="modal">
       <div class="modal-content">
         <p>Willst du wirklich "{{ model.name }}" löschen?</p>
         <br />
         <button
-            class="form-btn delete-btn"
-            type="submit" name='delete' value="{{ model.link_type }}-{{ model.id }}">
-            Löschen
-          </button>
+          class="form-btn delete-btn"
+          type="submit"
+          name="delete"
+          value="{{ model.link_type }}-{{ model.id }}"
+        >
+          Löschen
+        </button>
       </div>
     </div>
   </form>
-    {% endfor %}
+  {% endfor %}
 </div>
 <script>
   // Get the modal
   function modal_func(modal_id, dropdown_id) {
     var modal = document.getElementById(modal_id);
     var dropdown = document.getElementById(dropdown_id);
-    var layer = document.querySelector('.layer');
-  
+    var layer = document.querySelector(".layer");
+
     modal.style.display = "block";
-    dropdown.classList.remove('active');
-    layer.classList.remove('active');
-  
-    window.onclick = function(event) {
+    dropdown.classList.remove("active");
+    layer.classList.remove("active");
+
+    window.onclick = function (event) {
       if (event.target == modal) {
         modal.style.display = "none";
       }
-    }
+    };
   }
 </script>
 {% endblock %}

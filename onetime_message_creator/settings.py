@@ -28,6 +28,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'einmallink.schlingh3ider.de']
 
+CSRF_TRUSTED_ORIGINS = ['https://einmallink.schlingh3ider.de']
 
 # Application definition
 

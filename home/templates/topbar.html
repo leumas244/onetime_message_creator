@@ -1,87 +1,118 @@
 <nav class="main-nav--bg">
-    <div class="container main-nav">
-        <!-- Optionale Suche -->
-        <div class="main-nav-start">
-            <!--<div class="search-wrapper">
+  <div class="container main-nav">
+    <!-- Optionale Suche -->
+    <div class="main-nav-start">
+      <!--<div class="search-wrapper">
                 <i data-feather="search" aria-hidden="true"></i>
                 <input type="text" placeholder="Enter keywords ..." required>
             </div>-->
-        </div>
-        <div class="main-nav-end">
-            <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
-                <span class="sr-only">Toggle menu</span>
-                <span class="icon menu-toggle--gray" aria-hidden="true"></span>
-            </button>
-            <button class="theme-switcher gray-circle-btn" type="button" title="Theme wechseln">
-                <span class="sr-only">Theme wechseln</span>
-                <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
-                <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
-            </button>
-            <div class="notification-wrapper">
-                <button id="notification_button" class="gray-circle-btn dropdown-btn" title="Nachrichten" type="button">
-                    <span class="sr-only">Nachrichten</span>
-                    <span id="notification_icon" class="icon notification" aria-hidden="true"></span>
-                </button>
-                <ul id="notification_list" class="users-item-dropdown notification-dropdown dropdown">
-                    {% for message in messages %}
-                    <li id="{{ message }}">
-                        <div class="notification-dropdown-element">
-                            <div class="notification-dropdown-icon {{ message.tags }}">
-                                {% if message.tags == 'info' %}
-                                <i data-feather="info" aria-hidden="true"></i>
-                                {% elif message.tags == 'warning' %}
-                                <i data-feather="alert-triangle" aria-hidden="true"></i>
-                                {% elif message.tags == 'danger' %}
-                                <i data-feather="alert-circle" aria-hidden="true"></i>
-                                {% elif message.tags == 'success' %}
-                                <i data-feather="check" aria-hidden="true"></i>
-                                {% endif %}
-                            </div>
-                            <div class="notification-dropdown-text">
-                                <span class="notification-dropdown__title">{{ message }}</span>
-                            </div>
-                            <div class="notification-dropdown-close">
-                                    <button type="button" class="transparent-btn" onclick='delete_notification("{{ message }}")'>
-                                    <i data-feather="x" aria-hidden="true"></i>
-                                    </button>
-                            </div>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="nav-user-wrapper">
-                <button class="nav-user-btn dropdown-btn" title="Profil" type="button">
-                    <span class="sr-only">Profil</span>
-                    <span class="nav-user-img">
-                        {% load static %}
-            <picture><source srcset="{% static 'base/img/avatar/avatar-illustrated-02.webp' %}" type="image/webp"><img
-                    src="{% static 'base/img/avatar/avatar-illustrated-02.png' %}" alt="User name"></picture>
-          </span>
-                </button>
-                <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                    <li>
-                        <a href="{% url 'settings' %}">
-                            <i data-feather="settings" aria-hidden="true"></i>
-                            <span>Einstellungen</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'change_password' %}">
-                            <i data-feather="lock" aria-hidden="true"></i>
-                            <span>Passwort ändern</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="danger" href="{% url 'logout' %}">
-                            <i data-feather="log-out" aria-hidden="true"></i>
-                            <span>Log out</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
     </div>
+    <div class="main-nav-end">
+      <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
+        <span class="sr-only">Toggle menu</span>
+        <span class="icon menu-toggle--gray" aria-hidden="true"></span>
+      </button>
+      <button
+        class="theme-switcher gray-circle-btn"
+        type="button"
+        title="Theme wechseln"
+      >
+        <span class="sr-only">Theme wechseln</span>
+        <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
+        <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
+      </button>
+      <div class="notification-wrapper">
+        <button
+          id="notification_button"
+          class="gray-circle-btn dropdown-btn"
+          title="Nachrichten"
+          type="button"
+        >
+          <span class="sr-only">Nachrichten</span>
+          <span
+            id="notification_icon"
+            class="icon notification"
+            aria-hidden="true"
+          ></span>
+        </button>
+        <ul
+          id="notification_list"
+          class="users-item-dropdown notification-dropdown dropdown"
+        >
+          {% for message in messages %}
+          <li id="{{ message }}">
+            <div class="notification-dropdown-element">
+              <div class="notification-dropdown-icon {{ message.tags }}">
+                {% if message.tags == 'info' %}
+                <i data-feather="info" aria-hidden="true"></i>
+                {% elif message.tags == 'warning' %}
+                <i data-feather="alert-triangle" aria-hidden="true"></i>
+                {% elif message.tags == 'danger' %}
+                <i data-feather="alert-circle" aria-hidden="true"></i>
+                {% elif message.tags == 'success' %}
+                <i data-feather="check" aria-hidden="true"></i>
+                {% endif %}
+              </div>
+              <div class="notification-dropdown-text">
+                <span class="notification-dropdown__title">{{ message }}</span>
+              </div>
+              <div class="notification-dropdown-close">
+                <button
+                  type="button"
+                  class="transparent-btn"
+                  onclick='delete_notification("{{ message }}")'
+                >
+                  <i data-feather="x" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="nav-user-wrapper">
+        <button class="nav-user-btn dropdown-btn" title="Profil" type="button">
+          <span class="sr-only">Profil</span>
+          <span class="nav-user-img">
+            {% load static %}
+            <picture
+              ><source
+                srcset="{% static 'base/img/avatar/avatar-illustrated-02.webp' %}"
+                type="image/webp" />
+              <img
+                src="{% static 'base/img/avatar/avatar-illustrated-02.png' %}"
+                alt="User name"
+            /></picture>
+          </span>
+        </button>
+        <ul class="users-item-dropdown nav-user-dropdown dropdown">
+          <li>
+            <a href="{% url 'settings' %}">
+              <i data-feather="settings" aria-hidden="true"></i>
+              <span>Einstellungen</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'change_password' %}">
+              <i data-feather="lock" aria-hidden="true"></i>
+              <span>Passwort ändern</span>
+            </a>
+          </li>
+          <li>
+            <a class="danger" href="{% url 'logout' %}">
+              <i data-feather="log-out" aria-hidden="true"></i>
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %} 
+                <button type="submit">
+                  <span>Log out</span>
+                </button>
+              </form>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </nav>
 {% load static %}
 <!-- Notification Checker -->

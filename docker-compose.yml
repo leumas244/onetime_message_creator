@@ -9,3 +9,4 @@ services:
       - /opt/django-apps/data/onetime_message_creator:/app/db
     ports:
       - "10101:8000"
+    user: "www-data"

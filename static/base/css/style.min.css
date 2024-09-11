@@ -1478,7 +1478,7 @@ button.disabled:focus {
     border-width: 0
 }
 
-.dropdown a {
+.dropdown a, .dropdown a button {
     display: inline-block;
     width: 100%;
     font-weight: 500;
@@ -1487,6 +1487,11 @@ button.disabled:focus {
     color: #767676;
     border-bottom: 1px solid #eee;
     text-align: left
+}
+
+.dropdown a button {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ffffff;
 }
 
 .dropdown a:hover {
@@ -2177,7 +2182,8 @@ label {
 
 .main-nav .nav-user-img,
 .main-nav .nav-user-img picture,
-.main-nav .nav-user-wrapper .users-item-dropdown a {
+.main-nav .nav-user-wrapper .users-item-dropdown a,
+.main-nav .nav-user-wrapper .users-item-dropdown a button {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2186,8 +2192,14 @@ label {
     align-items: center
 }
 
-.main-nav .nav-user-wrapper .users-item-dropdown a.danger {
+.main-nav .nav-user-wrapper .users-item-dropdown a.danger,
+.main-nav .nav-user-wrapper .users-item-dropdown a.danger button {
     color: #f26464
+}
+
+.main-nav .nav-user-wrapper .users-item-dropdown a.danger:hover,
+.main-nav .nav-user-wrapper .users-item-dropdown a.danger button:hover {
+    color: #ec1919
 }
 
 .main-nav .nav-user-img {
@@ -3167,11 +3179,16 @@ a.link:hover {
     border-color: transparent transparent #222235
 }
 
-.darkmode .dropdown a {
+.darkmode .dropdown a,
+.darkmode .dropdown a button {
     border-bottom-color: #2c2c42;
     color: #d6d7e3
 }
 
+.darkmode .dropdown a button {
+    background-color: #222235;
+    border-bottom-color: #222235;
+}
 .darkmode .dropdown-btn {
     color: #b9b9b9
 }
